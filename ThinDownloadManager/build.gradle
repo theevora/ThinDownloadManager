@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
 
 version = "1.2.4"
 group = "com.mani"
@@ -10,7 +9,7 @@ def gitUrl = 'https://github.com/smanikandan14/ThinDownloadManager.git'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "21.0.2"
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         minSdkVersion 9
@@ -48,37 +47,3 @@ bintray {
         publish = true
     }
 }
-
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name 'To download files and to avoid using DOWNLOAD_WITHOUT_NOTIFICATION permission if you are using Android\'s DownloadManager in your apps'
-                url siteUrl
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'smanikandan14'
-                        name 'Mani Selvaraju'
-                        email 'smanikandan14@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-
-                }
-            }
-        }
-    }
-}
-
-apply from: '../maven_push.gradle'
