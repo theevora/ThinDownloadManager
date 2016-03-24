@@ -16,9 +16,8 @@ public class ThinDownloadManager implements DownloadManager {
 	/**
 	 * Default constructor
 	 */
-	public ThinDownloadManager() {
-		mRequestQueue = new DownloadRequestQueue();
-		mRequestQueue.start();
+	public ThinDownloadManager(Context context) {
+		this(null, context);
 	}
 
 	/**
@@ -26,20 +25,8 @@ public class ThinDownloadManager implements DownloadManager {
 	 *
 	 * @param callbackHandler
 	 */
-	public ThinDownloadManager(Handler callbackHandler) throws InvalidParameterException {
-		mRequestQueue = new DownloadRequestQueue(callbackHandler);
-		mRequestQueue.start();
-	}
-
-	/**
-	 * Constructor taking MAX THREAD POOL SIZE  Allows maximum of 4 threads.
-	 * Any number higher than four or less than one wont be respected.
-	 * <p/>
-	 * Deprecated use Default Constructor. As the thread pool size will not respected anymore through this constructor.
-	 * Thread pool size is determined with the number of available processors on the device.
-	 **/
-	public ThinDownloadManager(int threadPoolSize) {
-		mRequestQueue = new DownloadRequestQueue(threadPoolSize);
+	public ThinDownloadManager(Handler callbackHandler, Context context) throws InvalidParameterException {
+		mRequestQueue = callbackHandler == null ? new DownloadRequestQueue(context) : new DownloadRequestQueue(callbackHandler, context);
 		mRequestQueue.start();
 	}
 
@@ -61,18 +48,15 @@ public class ThinDownloadManager implements DownloadManager {
 		return mRequestQueue.add(request);
 	}
 
-
 	@Override
 	public int cancel(int downloadId) {
 		return mRequestQueue.cancel(downloadId);
 	}
 
-
 	@Override
 	public void cancelAll() {
 		mRequestQueue.cancelAll();
 	}
-
 
 	@Override
 	public int query(int downloadId) {

@@ -1,5 +1,6 @@
 package com.thin.downloadmanager;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -11,6 +12,8 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DownloadRequestQueue {
+
+	private final Context context;
 
 	/**
 	 * The set of all requests currently being processed by this RequestQueue. A Request will be in this set if it is waiting in any queue or currently being processed by any dispatcher.
@@ -33,17 +36,8 @@ public class DownloadRequestQueue {
 	/**
 	 * Default constructor.
 	 */
-	public DownloadRequestQueue() {
-		initialize(new Handler(Looper.getMainLooper()));
-	}
-
-	/**
-	 * Creates the download dispatchers workers pool.
-	 * <p/>
-	 * Deprecated:
-	 */
-	public DownloadRequestQueue(int threadPoolSize) {
-		initialize(new Handler(Looper.getMainLooper()));
+	public DownloadRequestQueue(Context context) {
+		this(new Handler(Looper.getMainLooper()), context);
 	}
 
 	/**
@@ -51,11 +45,12 @@ public class DownloadRequestQueue {
 	 *
 	 * @param callbackHandler
 	 */
-	public DownloadRequestQueue(Handler callbackHandler) throws InvalidParameterException {
+	public DownloadRequestQueue(Handler callbackHandler, Context context) throws InvalidParameterException {
 		if (callbackHandler == null) {
 			throw new InvalidParameterException("callbackHandler must not be null");
 		}
 
+		this.context = context;
 		initialize(callbackHandler);
 	}
 
@@ -194,7 +189,7 @@ public class DownloadRequestQueue {
 
 		// Create download dispatchers (and corresponding threads) up to the pool size.
 		for (int i = 0; i < mDownloadDispatchers.length; i++) {
-			DownloadDispatcher downloadDispatcher = new DownloadDispatcher(mDownloadQueue, mDelivery);
+			DownloadDispatcher downloadDispatcher = new DownloadDispatcher(mDownloadQueue, mDelivery, context);
 			mDownloadDispatchers[i] = downloadDispatcher;
 			downloadDispatcher.start();
 		}

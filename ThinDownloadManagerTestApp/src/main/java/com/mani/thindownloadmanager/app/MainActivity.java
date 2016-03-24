@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 		mProgress5.setMax(100);
 		mProgress5.setProgress(0);
 
-		downloadManager = new ThinDownloadManager(DOWNLOAD_THREAD_POOL_SIZE);
+		downloadManager = new ThinDownloadManager(this);
 		RetryPolicy retryPolicy = new DefaultRetryPolicy();
 
 		File filesDir = getExternalFilesDir("");

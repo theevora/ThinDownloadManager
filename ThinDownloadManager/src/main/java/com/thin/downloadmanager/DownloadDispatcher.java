@@ -1,5 +1,6 @@
 package com.thin.downloadmanager;
 
+import android.content.Context;
 import android.os.Process;
 import android.util.Log;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -28,7 +29,8 @@ public class DownloadDispatcher extends Thread {
 	/**
 	 * Tag used for debugging/logging
 	 */
-	public static final String TAG = "ThinDownloadManager";
+	public static final String TAG = DownloadDispatcher.class.getSimpleName();
+	private final Context context;
 	private long mContentLength;
 	private long mCurrentBytes;
 	/**
@@ -51,16 +53,18 @@ public class DownloadDispatcher extends Thread {
 	 * Current Download request that this dispatcher is working
 	 */
 	private DownloadRequest mRequest;
-	Timer mTimer;
-	boolean shouldAllowRedirects = true;
+	private Timer mTimer;
+	private boolean shouldAllowRedirects = true;
 
 	/**
 	 * Constructor take the dependency (DownloadRequest queue) that all the Dispatcher needs
 	 */
 	public DownloadDispatcher(BlockingQueue<DownloadRequest> queue,
-	                          DownloadRequestQueue.CallBackDelivery delivery) {
+	                          DownloadRequestQueue.CallBackDelivery delivery,
+	                          Context context) {
 		mQueue = queue;
 		mDelivery = delivery;
+		this.context = context;
 	}
 
 	private void attemptRetryOnTimeOutException() {
@@ -87,6 +91,10 @@ public class DownloadDispatcher extends Thread {
 	 */
 	private void cleanupDestination() {
 		Log.d(TAG, "cleanupDestination() deleting " + mRequest.getDestinationURI().getPath());
+		if (mRequest.getDestinationURI().getScheme().equals("content")) {
+			return;
+		}
+
 		File destinationFile = new File(mRequest.getDestinationURI().getPath());
 		if (destinationFile.exists()) {
 			destinationFile.delete();
@@ -193,6 +201,46 @@ public class DownloadDispatcher extends Thread {
 		}
 	}
 
+	private OutputStream openFileOutputStream(InputStream in) {
+		OutputStream result = null;
+		File destinationFile = new File(mRequest.getDestinationURI().getPath().toString());
+
+		boolean errorCreatingDestinationFile = false;
+		// Create destination file if it doesn't exists
+		if (destinationFile.exists() == false) {
+			try {
+				if (destinationFile.createNewFile() == false) {
+					errorCreatingDestinationFile = true;
+					updateDownloadFailed(DownloadManager.ERROR_FILE_ERROR,
+							"Error in creating destination file");
+				}
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage(), e);
+				errorCreatingDestinationFile = true;
+				updateDownloadFailed(DownloadManager.ERROR_FILE_ERROR,
+						"Error in creating destination file");
+			}
+		}
+
+		// If Destination file couldn't be created. Abort the data transfer.
+		if (errorCreatingDestinationFile == false) {
+			try {
+				result = new FileOutputStream(destinationFile, true);
+			} catch (IOException e) {
+				Log.e(TAG, e.getMessage(), e);
+			}
+
+			if (in == null) {
+				updateDownloadFailed(DownloadManager.ERROR_FILE_ERROR,
+						"Error in creating input stream");
+			} else if (result == null) {
+				updateDownloadFailed(DownloadManager.ERROR_FILE_ERROR,
+						"Error in writing download contents to the destination file");
+			}
+		}
+		return result;
+	}
+
 	public void quit() {
 		mQuit = true;
 		interrupt();
@@ -258,80 +306,40 @@ public class DownloadDispatcher extends Thread {
 	private void transferData(HttpURLConnection conn) {
 		InputStream in = null;
 		OutputStream out = null;
-		FileDescriptor outFd = null;
 		cleanupDestination();
 		try {
 			try {
 				in = conn.getInputStream();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e(TAG, e.getMessage(), e);
 			}
 
-			File destinationFile = new File(mRequest.getDestinationURI().getPath().toString());
-
-			boolean errorCreatingDestinationFile = false;
-			// Create destination file if it doesn't exists
-			if (destinationFile.exists() == false) {
-				try {
-					if (destinationFile.createNewFile() == false) {
-						errorCreatingDestinationFile = true;
-						updateDownloadFailed(DownloadManager.ERROR_FILE_ERROR,
-								"Error in creating destination file");
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-					errorCreatingDestinationFile = true;
-					updateDownloadFailed(DownloadManager.ERROR_FILE_ERROR,
-							"Error in creating destination file");
-				}
+			if (mRequest.getDestinationURI().getScheme().equals("content")) {
+				out = context.getContentResolver().openOutputStream(mRequest.getDestinationURI());
+			} else {
+				out = openFileOutputStream(in);
 			}
 
-			// If Destination file couldn't be created. Abort the data transfer.
-			if (errorCreatingDestinationFile == false) {
-				try {
-					out = new FileOutputStream(destinationFile, true);
-					outFd = ((FileOutputStream) out).getFD();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				if (in == null) {
-					updateDownloadFailed(DownloadManager.ERROR_FILE_ERROR,
-							"Error in creating input stream");
-				} else if (out == null) {
-
-					updateDownloadFailed(DownloadManager.ERROR_FILE_ERROR,
-							"Error in writing download contents to the destination file");
-				} else {
-					// Start streaming data
-					transferData(in, out);
-				}
+			if (out != null) {
+				transferData(in, out);
 			}
-
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage(), e);
 		} finally {
 			try {
 				if (in != null) {
 					in.close();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				Log.e(TAG, e.getMessage(), e);
 			}
 
 			try {
 				if (out != null) {
-					out.flush();
-				}
-				if (outFd != null) {
-					outFd.sync();
+					out.close();
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (out != null) out.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				Log.e(TAG, e.getMessage(), e);
 			}
 		}
 	}
