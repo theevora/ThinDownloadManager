@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.content.Intent;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.support.v4.provider.DocumentFile;
 import com.thin.downloadmanager.*;
 
 import java.io.File;
@@ -250,6 +252,8 @@ public class MainActivity extends Activity {
 	}
 
 	public void outputButtonOnClick(View v) {
+		Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+		startActivityForResult(intent, 42);
 	}
 
 	private void showInternalFilesDir() {
@@ -350,4 +354,19 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+		if (resultCode == RESULT_OK) {
+			Uri treeUri = resultData.getData();
+			DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
+			
+			Uri u = pickedDir.getUri();
+	
+			
+			DocumentFile newFile = pickedDir.createFile("text/plain", "My1.txt");
+		
+			outputDir = newFile.getUri();
+		}
+	}
+
+private DocumentFile outputDir;
 }
