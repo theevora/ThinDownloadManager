@@ -3,7 +3,7 @@ package com.mani.thindownloadmanager.app;
 import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +13,7 @@ import com.thin.downloadmanager.*;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
 	private static final int DOWNLOAD_THREAD_POOL_SIZE = 4;
 	private static final String FILE1 = "https://dl.dropboxusercontent.com/u/25887355/test_photo1.JPG";
