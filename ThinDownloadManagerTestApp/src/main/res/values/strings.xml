@@ -13,5 +13,6 @@
   <string name="cancel_all">Cancel All</string>
 
   <string name="list_files">List</string>
+  <string name="output">Output...</string>
 
 </resources>

@@ -249,6 +249,9 @@ public class MainActivity extends AppCompatActivity {
 		downloadManager.release();
 	}
 
+	public void outputButtonOnClick(View v) {
+	}
+
 	private void showInternalFilesDir() {
 		File internalFile = new File(getExternalFilesDir("").getPath());
 		File files[] = internalFile.listFiles();
