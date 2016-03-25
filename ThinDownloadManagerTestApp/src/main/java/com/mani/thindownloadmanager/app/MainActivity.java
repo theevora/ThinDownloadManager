@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,13 +40,9 @@ public class MainActivity extends Activity {
 	Button mDownload5;
 	Button mListFiles;
 	ProgressBar mProgress1;
-	TextView mProgress1Txt;
 	ProgressBar mProgress2;
-	TextView mProgress2Txt;
 	ProgressBar mProgress3;
-	TextView mProgress3Txt;
 	ProgressBar mProgress4;
-	TextView mProgress4Txt;
 	ProgressBar mProgress5;
 	TextView mProgress5Txt;
 	Button mStartAll;
@@ -69,6 +66,8 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		clearLog();
 		setContentView(R.layout.activity_main);
 
 		mDownload1 = (Button) findViewById(R.id.button1);
@@ -80,12 +79,6 @@ public class MainActivity extends Activity {
 		mStartAll = (Button) findViewById(R.id.button5);
 		mCancelAll = (Button) findViewById(R.id.button6);
 		mListFiles = (Button) findViewById(R.id.button7);
-
-		mProgress1Txt = (TextView) findViewById(R.id.progressTxt1);
-		mProgress2Txt = (TextView) findViewById(R.id.progressTxt2);
-		mProgress3Txt = (TextView) findViewById(R.id.progressTxt3);
-		mProgress4Txt = (TextView) findViewById(R.id.progressTxt4);
-		mProgress5Txt = (TextView) findViewById(R.id.progressTxt5);
 
 		mProgress1 = (ProgressBar) findViewById(R.id.progress1);
 		mProgress2 = (ProgressBar) findViewById(R.id.progress2);
@@ -237,11 +230,6 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		mProgress1Txt.setText("Download1");
-		mProgress2Txt.setText("Download2");
-		mProgress3Txt.setText("Download3");
-		mProgress4Txt.setText("Download4");
-		mProgress5Txt.setText("Download5");
 	}
 
 	@Override
@@ -286,16 +274,14 @@ public class MainActivity extends Activity {
 		public void onDownloadComplete(DownloadRequest request) {
 			final int id = request.getDownloadId();
 			if (id == downloadId1) {
-				mProgress1Txt.setText(request.getDownloadContext() + " id: " + id + " Completed");
-
+				mProgress1.setProgress(0);
 			} else if (id == downloadId2) {
-				mProgress2Txt.setText(request.getDownloadContext() + " id: " + id + " Completed");
+				mProgress2.setProgress(0);
 
 			} else if (id == downloadId3) {
-				mProgress3Txt.setText(request.getDownloadContext() + " id: " + id + " Completed");
-
+				mProgress3.setProgress(0);
 			} else if (id == downloadId4) {
-				mProgress4Txt.setText(request.getDownloadContext() + " id: " + id + " Completed");
+				mProgress4.setProgress(0);
 			} else if (id == downloadId5) {
 				mProgress5Txt.setText(request.getDownloadContext() + " id: " + id + " Completed");
 			}
@@ -305,21 +291,15 @@ public class MainActivity extends Activity {
 		public void onDownloadFailed(DownloadRequest request, int errorCode, String errorMessage) {
 			final int id = request.getDownloadId();
 			if (id == downloadId1) {
-				mProgress1Txt.setText("Download1 id: " + id + " Failed: ErrorCode " + errorCode + ", " + errorMessage);
 				mProgress1.setProgress(0);
 			} else if (id == downloadId2) {
-				mProgress2Txt.setText("Download2 id: " + id + " Failed: ErrorCode " + errorCode + ", " + errorMessage);
 				mProgress2.setProgress(0);
 
 			} else if (id == downloadId3) {
-				mProgress3Txt.setText("Download3 id: " + id + " Failed: ErrorCode " + errorCode + ", " + errorMessage);
 				mProgress3.setProgress(0);
-
 			} else if (id == downloadId4) {
-				mProgress4Txt.setText("Download4 id: " + id + " Failed: ErrorCode " + errorCode + ", " + errorMessage);
 				mProgress4.setProgress(0);
 			} else if (id == downloadId5) {
-				mProgress5Txt.setText("Download5 id: " + id + " Failed: ErrorCode " + errorCode + ", " + errorMessage);
 				mProgress5.setProgress(0);
 			}
 		}
@@ -330,19 +310,15 @@ public class MainActivity extends Activity {
 
 			System.out.println("######## onProgress ###### " + id + " : " + totalBytes + " : " + downloadedBytes + " : " + progress);
 			if (id == downloadId1) {
-				mProgress1Txt.setText("Download1 id: " + id + ", " + progress + "%" + "  " + getBytesDownloaded(progress, totalBytes));
 				mProgress1.setProgress(progress);
 
 			} else if (id == downloadId2) {
-				mProgress2Txt.setText("Download2 id: " + id + ", " + progress + "%" + "  " + getBytesDownloaded(progress, totalBytes));
 				mProgress2.setProgress(progress);
 
 			} else if (id == downloadId3) {
-				mProgress3Txt.setText("Download3 id: " + id + ", " + progress + "%" + "  " + getBytesDownloaded(progress, totalBytes));
 				mProgress3.setProgress(progress);
 
 			} else if (id == downloadId4) {
-				mProgress4Txt.setText("Download4 id: " + id + ", " + progress + "%" + "  " + getBytesDownloaded(progress, totalBytes));
 				mProgress4.setProgress(progress);
 			} else if (id == downloadId5) {
 				mProgress5Txt.setText("Download5 id: " + id + ", " + progress + "%" + "  " + getBytesDownloaded(progress, totalBytes));
@@ -359,14 +335,23 @@ public class MainActivity extends Activity {
 			Uri treeUri = resultData.getData();
 			DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
 			
-			Uri u = pickedDir.getUri();
+			outputFile = pickedDir.createFile("text/plain", "My1.txt");
 	
-			
-			DocumentFile newFile = pickedDir.createFile("text/plain", "My1.txt");
-		
-			outputDir = newFile.getUri();
 		}
 	}
 
-private DocumentFile outputDir;
+private DocumentFile outputFile;
+
+public void clearLog(){
+     try {
+         Process process = new ProcessBuilder()
+         .command("logcat", "-c")
+         .redirectErrorStream(true)
+         .start();
+    } catch (Exception e) {
+        Log.e(LOG_TAG,e.getMessage(),e);
+    }
+}
+
+private static final String LOG_TAG = "ThinDownloadManager";
 }

@@ -81,65 +81,50 @@
       android:layout_marginTop="10dp"
       android:text="@string/list_files"/>
 
-    <TextView
-      android:id="@+id/progressTxt1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/button7"
-      android:layout_marginTop="10dp"/>
-
     <ProgressBar
       android:id="@+id/progress1"
       style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
+      android:layout_width="50dp"
       android:layout_height="wrap_content"
-      android:layout_below="@id/progressTxt1"
-      android:layout_marginTop="5dip"/>
-
-    <TextView
-      android:id="@+id/progressTxt2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progress1"
-      android:layout_marginTop="10dp"/>
+      android:layout_below="@id/button7"
+     />
 
     <ProgressBar
       android:id="@+id/progress2"
       style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
+      android:layout_width="50dp"
       android:layout_height="wrap_content"
-      android:layout_below="@id/progressTxt2"
-      android:layout_marginTop="5dip"/>
-
-    <TextView
-      android:id="@+id/progressTxt3"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progress2"
-      android:layout_marginTop="10dp"/>
+      android:layout_below="@id/button7"
+      android:layout_toEndOf="@+id/progress1"
+      />
 
     <ProgressBar
       android:id="@+id/progress3"
       style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
+      android:layout_width="50dp"
       android:layout_height="wrap_content"
-      android:layout_below="@id/progressTxt3"
-      android:layout_marginTop="5dip"/>
+      android:layout_below="@id/button7"
+    android:layout_toEndOf="@+id/progress2"/>
 
-    <TextView
-      android:id="@+id/progressTxt4"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progress3"
-      android:layout_marginTop="10dp"/>
 
     <ProgressBar
       android:id="@+id/progress4"
       style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
+      android:layout_width="50dp"
       android:layout_height="wrap_content"
-      android:layout_below="@id/progressTxt4"
-      android:layout_marginTop="5dip"/>
+      android:layout_below="@id/button7"
+      android:layout_toEndOf="@+id/progress3"
+      />
+
+    <TextView
+      android:id="@+id/logtext"
+      android:layout_width="match_parent"
+      android:layout_height="200dp"
+      android:layout_below="@+id/progress4"
+      android:layout_alignParentLeft="true"
+     android:layout_marginTop="10dp"/>
+
+ 
 
     <Button
       android:id="@+id/button_download_headers"
@@ -148,7 +133,7 @@
       android:layout_height="wrap_content"
       android:layout_alignParentRight="true"
       android:layout_alignParentLeft="true"
-      android:layout_below="@id/progress4"
+      android:layout_below="@id/logtext"
       android:text="@string/download5"/>
 
     <TextView
