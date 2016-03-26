@@ -14,8 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.thin.downloadmanager.*;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MainActivity extends Activity {
 
@@ -62,6 +64,10 @@ public class MainActivity extends Activity {
 		} catch (Exception e) {
 			Log.e(LOG_TAG, e.getMessage(), e);
 		}
+	}
+
+	public void clearLogButtonOnClick(View v) {
+		clearLog();
 	}
 
 	private String getBytesDownloaded(int progress, long totalBytes) {
@@ -268,27 +274,6 @@ public class MainActivity extends Activity {
 		startActivityForResult(intent, 42);
 	}
 
-	public void clearLogButtonOnClick(View v) {
-		clearLog();
-	}
-
-	public void showLogButtonOnClick(View v) {
-		try {
-			Process process = Runtime.getRuntime().exec("logcat -d");
-			BufferedReader bufferedReader = new BufferedReader(
-					new InputStreamReader(process.getInputStream()));
-
-			StringBuilder log=new StringBuilder();
-			String line = "";
-			while ((line = bufferedReader.readLine()) != null) {
-				log.append(line);
-			}
-			TextView tv = (TextView)findViewById(R.id.logtext;
-			tv.setText(log.toString());
-		}
-		catch (IOException e) {}
-	}
-
 	private void showInternalFilesDir() {
 		File internalFile = new File(getExternalFilesDir("").getPath());
 		File files[] = internalFile.listFiles();
@@ -311,6 +296,28 @@ public class MainActivity extends Activity {
 		builder.setView(dialogLayout);
 		builder.show();
 
+	}
+
+	public void showLogButtonOnClick(View v) {
+		Process process = null;
+		try {
+			process = Runtime.getRuntime().exec("logcat -d");
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(process.getInputStream()));
+
+			StringBuilder log = new StringBuilder();
+			String line = "";
+			while ((line = bufferedReader.readLine()) != null) {
+				log.append(line);
+			}
+			TextView tv = (TextView) findViewById(R.id.logText);
+			tv.setText(log.toString());
+		} catch (IOException e) {
+		} finally {
+			if (process != null) {
+				process.destroy();
+			}
+		}
 	}
 
 	class MyDownloadDownloadStatusListenerV1 implements DownloadStatusListenerV1 {

@@ -116,7 +116,7 @@
 				android:layout_marginLeft="5dp"/>
 
 		<TextView
-				android:id="@+id/logtext"
+				android:id="@+id/logText"
 				android:layout_width="match_parent"
 				android:layout_height="200dp"
 				android:layout_below="@+id/progress4"
@@ -130,7 +130,7 @@
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_alignParentLeft="true"
-				android:layout_below="@id/logtext"
+				android:layout_below="@id/logText"
 				android:text="@string/download5"/>
 
 		<TextView
