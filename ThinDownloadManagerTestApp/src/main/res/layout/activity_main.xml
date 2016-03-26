@@ -8,7 +8,6 @@
             android:paddingTop="@dimen/activity_vertical_margin"
             tools:context=".MainActivity">
 
-
   <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -96,15 +95,15 @@
       android:layout_height="wrap_content"
       android:layout_below="@id/button7"
       android:layout_toEndOf="@+id/progress1"
-      />
+      android:layout_marginLeft="5dp"/>
 
     <ProgressBar
-      android:id="@+id/progress3"
-      style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="50dp"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/button7"
-    android:layout_toEndOf="@+id/progress2"/>
+            android:id="@+id/progress3"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/button7"
+            android:layout_toEndOf="@+id/progress2" android:layout_marginLeft="5dp"/>
 
 
     <ProgressBar
@@ -114,7 +113,7 @@
       android:layout_height="wrap_content"
       android:layout_below="@id/button7"
       android:layout_toEndOf="@+id/progress3"
-      />
+      android:layout_marginLeft="5dp"/>
 
     <TextView
       android:id="@+id/logtext"
@@ -123,8 +122,6 @@
       android:layout_below="@+id/progress4"
       android:layout_alignParentLeft="true"
      android:layout_marginTop="10dp"/>
-
- 
 
     <Button
       android:id="@+id/button_download_headers"
@@ -150,8 +147,18 @@
       android:layout_height="wrap_content"
       android:layout_below="@id/progressTxt5"
       android:layout_marginTop="5dip"/>
+
     <Button android:id="@+id/outputButton" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="@string/output" android:layout_alignTop="@+id/button7"
-            android:onClick="outputButtonOnClick" android:layout_toEndOf="@+id/button5"/>
+            android:text="@string/output" android:layout_alignBaseline="@+id/button7"
+            android:onClick="outputButtonOnClick" android:layout_toEndOf="@+id/button7"/>
+
+    <Button android:id="@+id/clearLogButton" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/button.clearLog" android:layout_alignBaseline="@+id/button7"
+            android:onClick="clearLogButtonOnClick" android:layout_toEndOf="@+id/outputButton"/>
+
+    <Button android:id="@+id/showLogButton" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/buttonShowLog" android:layout_alignBaseline="@+id/button7"
+            android:onClick="showLogButtonOnClick" android:layout_toEndOf="@+id/clearLogButton"/>
+
   </RelativeLayout>
 </ScrollView>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.thin.downloadmanager.*;
 
 import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends Activity {
 
@@ -83,7 +84,6 @@ public class MainActivity extends Activity {
 			DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
 
 			outputFile = pickedDir.createFile("text/plain", "My1.txt");
-
 		}
 	}
 
@@ -266,6 +266,27 @@ public class MainActivity extends Activity {
 	public void outputButtonOnClick(View v) {
 		Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
 		startActivityForResult(intent, 42);
+	}
+
+	public void clearLogButtonOnClick(View v) {
+		clearLog();
+	}
+
+	public void showLogButtonOnClick(View v) {
+		try {
+			Process process = Runtime.getRuntime().exec("logcat -d");
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(process.getInputStream()));
+
+			StringBuilder log=new StringBuilder();
+			String line = "";
+			while ((line = bufferedReader.readLine()) != null) {
+				log.append(line);
+			}
+			TextView tv = (TextView)findViewById(R.id.logtext;
+			tv.setText(log.toString());
+		}
+		catch (IOException e) {}
 	}
 
 	private void showInternalFilesDir() {
