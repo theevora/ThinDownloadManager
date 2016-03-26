@@ -1,17 +1,17 @@
 package com.mani.thindownloadmanager.app;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
+import android.support.v4.provider.DocumentFile;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.content.Intent;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.support.v4.provider.DocumentFile;
 import com.thin.downloadmanager.*;
 
 import java.io.File;
@@ -25,6 +25,8 @@ public class MainActivity extends Activity {
 	private static final String FILE4 = "https://dl.dropboxusercontent.com/u/25887355/test_video.mp4";
 	private static final String FILE5 = "http://httpbin.org/headers";
 	private static final String FILE6 = "https://dl.dropboxusercontent.com/u/25887355/ThinDownloadManager.tar.gz";
+
+	private static final String LOG_TAG = "ThinDownloadManager";
 	int downloadId1;
 	int downloadId2;
 	int downloadId3;
@@ -48,6 +50,18 @@ public class MainActivity extends Activity {
 	Button mStartAll;
 	MyDownloadDownloadStatusListenerV1
 			myDownloadStatusListener = new MyDownloadDownloadStatusListenerV1();
+	private DocumentFile outputFile;
+
+	public void clearLog() {
+		try {
+			Process process = new ProcessBuilder()
+					.command("logcat", "-c")
+					.redirectErrorStream(true)
+					.start();
+		} catch (Exception e) {
+			Log.e(LOG_TAG, e.getMessage(), e);
+		}
+	}
 
 	private String getBytesDownloaded(int progress, long totalBytes) {
 		//Greater than 1 MB
@@ -63,10 +77,20 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+		if (resultCode == RESULT_OK) {
+			Uri treeUri = resultData.getData();
+			DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
+
+			outputFile = pickedDir.createFile("text/plain", "My1.txt");
+
+		}
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		clearLog();
 		setContentView(R.layout.activity_main);
 
@@ -329,29 +353,4 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
-
-	public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-		if (resultCode == RESULT_OK) {
-			Uri treeUri = resultData.getData();
-			DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
-			
-			outputFile = pickedDir.createFile("text/plain", "My1.txt");
-	
-		}
-	}
-
-private DocumentFile outputFile;
-
-public void clearLog(){
-     try {
-         Process process = new ProcessBuilder()
-         .command("logcat", "-c")
-         .redirectErrorStream(true)
-         .start();
-    } catch (Exception e) {
-        Log.e(LOG_TAG,e.getMessage(),e);
-    }
-}
-
-private static final String LOG_TAG = "ThinDownloadManager";
 }
