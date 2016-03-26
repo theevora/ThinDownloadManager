@@ -37,25 +37,18 @@ public class MainActivity extends Activity {
 	private int downloadId5;
 	private int downloadId6;
 	private ThinDownloadManager downloadManager;
-	private Button mCancelAll;
-	private Button mDownload1;
-	private Button mDownload2;
-	private Button mDownload3;
-	private Button mDownload4;
-	private Button mDownload5;
-	private Button mListFiles;
-	ProgressBar mProgress1;
-	ProgressBar mProgress2;
-	ProgressBar mProgress3;
-	ProgressBar mProgress4;
-	ProgressBar mProgress5;
-	TextView mProgress5Txt;
-	Button mStartAll;
-	MyDownloadDownloadStatusListenerV1
+
+	private ProgressBar mProgress1;
+	private ProgressBar mProgress2;
+	private ProgressBar mProgress3;
+	private ProgressBar mProgress4;
+	private ProgressBar mProgress5;
+	private TextView mProgress5Txt;
+	private MyDownloadDownloadStatusListenerV1
 			myDownloadStatusListener = new MyDownloadDownloadStatusListenerV1();
 	private DocumentFile outputFile;
 
-	public void clearLog() {
+	private void clearLog() {
 		try {
 			Process process = new ProcessBuilder()
 					.command("logcat", "-c")
@@ -100,15 +93,14 @@ public class MainActivity extends Activity {
 		clearLog();
 		setContentView(R.layout.activity_main);
 
-		mDownload1 = (Button) findViewById(R.id.button1);
-		mDownload2 = (Button) findViewById(R.id.button2);
-		mDownload3 = (Button) findViewById(R.id.button3);
-		mDownload4 = (Button) findViewById(R.id.button4);
-		mDownload5 = (Button) findViewById(R.id.button_download_headers);
+		Button mDownload1 = (Button) findViewById(R.id.button1);
+		Button mDownload2 = (Button) findViewById(R.id.button2);
+		Button mDownload3 = (Button) findViewById(R.id.button3);
+		Button mDownload4 = (Button) findViewById(R.id.button4);
+		Button mDownload5 = (Button) findViewById(R.id.button_download_headers);
 
-		mStartAll = (Button) findViewById(R.id.button5);
-		mCancelAll = (Button) findViewById(R.id.button6);
-		mListFiles = (Button) findViewById(R.id.button7);
+		Button mCancelAll = (Button) findViewById(R.id.button6);
+		Button mListFiles = (Button) findViewById(R.id.button7);
 
 		mProgress1 = (ProgressBar) findViewById(R.id.progress1);
 		mProgress2 = (ProgressBar) findViewById(R.id.progress2);
@@ -234,6 +226,7 @@ public class MainActivity extends Activity {
 			}
 		});
 
+		Button mStartAll = (Button) findViewById(R.id.button5);
 		mStartAll.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -306,13 +299,14 @@ public class MainActivity extends Activity {
 					new InputStreamReader(process.getInputStream()));
 
 			StringBuilder log = new StringBuilder();
-			String line = "";
+			String line;
 			while ((line = bufferedReader.readLine()) != null) {
 				log.append(line);
 			}
 			TextView tv = (TextView) findViewById(R.id.logText);
 			tv.setText(log.toString());
 		} catch (IOException e) {
+			Log.e(LOG_TAG, e.getMessage(), e);
 		} finally {
 			if (process != null) {
 				process.destroy();
@@ -320,7 +314,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	class MyDownloadDownloadStatusListenerV1 implements DownloadStatusListenerV1 {
+	private class MyDownloadDownloadStatusListenerV1 implements DownloadStatusListenerV1 {
 
 		@Override
 		public void onDownloadComplete(DownloadRequest request) {
@@ -335,7 +329,7 @@ public class MainActivity extends Activity {
 			} else if (id == downloadId4) {
 				mProgress4.setProgress(0);
 			} else if (id == downloadId5) {
-				mProgress5Txt.setText(request.getDownloadContext() + " id: " + id + " Completed");
+				mProgress5Txt.setText(String.format("%s id: %s Completed", request.getDownloadContext(), Integer.toString(id)));
 			}
 		}
 
