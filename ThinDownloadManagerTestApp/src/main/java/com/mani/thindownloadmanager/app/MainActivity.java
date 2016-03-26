@@ -89,8 +89,6 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		clearLog();
 		setContentView(R.layout.activity_main);
 
 		Button mDownload1 = (Button) findViewById(R.id.button1);
