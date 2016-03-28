@@ -5,23 +5,22 @@ package com.thin.downloadmanager;
  */
 public interface RetryPolicy {
 
-    /**
-     * Returns the current timeout (used for logging).
-     */
-    public int getCurrentTimeout();
+	/**
+	 * Return back off multiplier
+	 */
+	float getBackOffMultiplier();
 
-    /**
-     * Returns the current retry count (used for logging).
-     */
-    public int getCurrentRetryCount();
+	/**
+	 * Returns the current retry count (used for logging).
+	 */
+	int getCurrentRetryCount();
 
-    /**
-     * Return back off multiplier
-     */
-    public float getBackOffMultiplier();
+	/**
+	 * Returns the current timeout (used for logging).
+	 */
+	int getCurrentTimeout();
 
-
-    public void retry() throws RetryError;
+	void retry() throws RetryError;
 
 
 }

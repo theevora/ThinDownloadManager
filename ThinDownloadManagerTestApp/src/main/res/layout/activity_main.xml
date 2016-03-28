@@ -1,169 +1,165 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            tools:context=".MainActivity">
+			xmlns:tools="http://schemas.android.com/tools"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:paddingBottom="@dimen/activity_vertical_margin"
+			android:paddingLeft="@dimen/activity_horizontal_margin"
+			android:paddingRight="@dimen/activity_horizontal_margin"
+			android:paddingTop="@dimen/activity_vertical_margin"
+			tools:context=".MainActivity">
+
+	<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+		<Button
+				android:id="@+id/button1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_marginTop="10dp"
+				android:text="@string/download1"/>
+
+		<Button
+				android:id="@+id/button2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_marginTop="10dp"
+				android:text="@string/download2"/>
 
 
-  <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+		<Button
+				android:id="@+id/button3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_below="@id/button1"
+				android:text="@string/download3"/>
 
-    <Button
-      android:id="@+id/button1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentLeft="true"
-      android:layout_marginTop="10dp"
-      android:text="@string/download1"/>
+		<Button
+				android:id="@+id/button4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_below="@id/button1"
+				android:text="@string/download4"/>
 
-    <Button
-      android:id="@+id/button2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentRight="true"
-      android:layout_marginTop="10dp"
-      android:text="@string/download2"/>
+		<Button
+				android:id="@+id/button8"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_below="@id/button3"
+				android:layout_marginTop="10dp"
+				android:text="@string/download6"/>
+
+		<Button
+				android:id="@+id/button5"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_below="@id/button8"
+				android:layout_marginTop="10dp"
+				android:text="@string/start_all"/>
+
+		<Button
+				android:id="@+id/button6"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_below="@id/button8"
+				android:layout_marginTop="10dp"
+				android:text="@string/cancel_all"/>
+
+		<Button
+				android:id="@+id/button7"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/button5"
+				android:layout_marginTop="10dp"
+				android:text="@string/list_files"/>
+
+		<ProgressBar
+				android:id="@+id/progress1"
+				style="@android:style/Widget.ProgressBar.Horizontal"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/button7"
+		/>
+
+		<ProgressBar
+				android:id="@+id/progress2"
+				style="@android:style/Widget.ProgressBar.Horizontal"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/button7"
+				android:layout_toEndOf="@+id/progress1"
+				android:layout_marginLeft="5dp"/>
+
+		<ProgressBar
+				android:id="@+id/progress3"
+				style="@android:style/Widget.ProgressBar.Horizontal"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/button7"
+				android:layout_toEndOf="@+id/progress2" android:layout_marginLeft="5dp"/>
 
 
-    <Button
-      android:id="@+id/button3"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentLeft="true"
-      android:layout_below="@id/button1"
-      android:text="@string/download3"/>
+		<ProgressBar
+				android:id="@+id/progress4"
+				style="@android:style/Widget.ProgressBar.Horizontal"
+				android:layout_width="50dp"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/button7"
+				android:layout_toEndOf="@+id/progress3"
+				android:layout_marginLeft="5dp"/>
 
-    <Button
-      android:id="@+id/button4"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentRight="true"
-      android:layout_below="@id/button1"
-      android:text="@string/download4"/>
+		<TextView
+				android:id="@+id/logText"
+				android:layout_width="match_parent"
+				android:layout_height="200dp"
+				android:layout_below="@+id/progress4"
+				android:layout_alignParentLeft="true"
+				android:layout_marginTop="10dp"/>
 
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/button3"
-        android:layout_marginTop="10dp"
-        android:text="@string/download6"/>
+		<Button
+				android:id="@+id/button_download_headers"
+				android:layout_marginTop="20dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentLeft="true"
+				android:layout_below="@id/logText"
+				android:text="@string/download5"/>
 
-    <Button
-      android:id="@+id/button5"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentLeft="true"
-      android:layout_below="@id/button8"
-      android:layout_marginTop="10dp"
-      android:text="@string/start_all"/>
+		<TextView
+				android:id="@+id/progressTxt5"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/button_download_headers"
+				android:layout_marginTop="10dp"/>
 
-    <Button
-      android:id="@+id/button6"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentRight="true"
-      android:layout_below="@id/button8"
-      android:layout_marginTop="10dp"
-      android:text="@string/cancel_all"/>
+		<ProgressBar
+				android:id="@+id/progress5"
+				style="@android:style/Widget.ProgressBar.Horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/progressTxt5"
+				android:layout_marginTop="5dip"/>
 
-    <Button
-      android:id="@+id/button7"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/button5"
-      android:layout_marginTop="10dp"
-      android:text="@string/list_files"/>
+		<Button android:id="@+id/outputButton" android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/output" android:layout_alignBaseline="@+id/button7"
+				android:onClick="outputButtonOnClick" android:layout_toEndOf="@+id/button7"/>
 
-    <TextView
-      android:id="@+id/progressTxt1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/button7"
-      android:layout_marginTop="10dp"/>
+		<Button android:id="@+id/clearLogButton" android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/button.clearLog" android:layout_alignBaseline="@+id/button7"
+				android:onClick="clearLogButtonOnClick" android:layout_toEndOf="@+id/outputButton"/>
 
-    <ProgressBar
-      android:id="@+id/progress1"
-      style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progressTxt1"
-      android:layout_marginTop="5dip"/>
+		<Button android:id="@+id/showLogButton" android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="@string/buttonShowLog" android:layout_alignBaseline="@+id/button7"
+				android:onClick="showLogButtonOnClick" android:layout_toEndOf="@+id/clearLogButton"/>
 
-    <TextView
-      android:id="@+id/progressTxt2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progress1"
-      android:layout_marginTop="10dp"/>
-
-    <ProgressBar
-      android:id="@+id/progress2"
-      style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progressTxt2"
-      android:layout_marginTop="5dip"/>
-
-    <TextView
-      android:id="@+id/progressTxt3"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progress2"
-      android:layout_marginTop="10dp"/>
-
-    <ProgressBar
-      android:id="@+id/progress3"
-      style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progressTxt3"
-      android:layout_marginTop="5dip"/>
-
-    <TextView
-      android:id="@+id/progressTxt4"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progress3"
-      android:layout_marginTop="10dp"/>
-
-    <ProgressBar
-      android:id="@+id/progress4"
-      style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progressTxt4"
-      android:layout_marginTop="5dip"/>
-
-    <Button
-      android:id="@+id/button_download_headers"
-      android:layout_marginTop="20dp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentRight="true"
-      android:layout_alignParentLeft="true"
-      android:layout_below="@id/progress4"
-      android:text="@string/download5"/>
-
-    <TextView
-      android:id="@+id/progressTxt5"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/button_download_headers"
-      android:layout_marginTop="10dp"/>
-
-    <ProgressBar
-      android:id="@+id/progress5"
-      style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/progressTxt5"
-      android:layout_marginTop="5dip"/>
-  </RelativeLayout>
+	</RelativeLayout>
 </ScrollView>
