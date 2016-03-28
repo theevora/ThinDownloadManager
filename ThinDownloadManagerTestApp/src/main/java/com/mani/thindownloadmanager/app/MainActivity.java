@@ -21,7 +21,7 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends Activity {
 
-	private static final String FILE2 = "https://dl.dropboxusercontent.com/u/25887355/test_photo2.jpg";
+	private static final String FILE2 = "https://upload.wikimedia.org/wikipedia/en/3/3f/Case_Closed_Volume_36.png";
 	private static final String FILE3 = "https://dl.dropboxusercontent.com/u/25887355/test_song.mp3";
 
 	private static final String LOG_TAG = "ThinDownloadManager";
@@ -67,9 +67,7 @@ public class MainActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 		if (resultCode == RESULT_OK) {
 			Uri treeUri = resultData.getData();
-			DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
-
-			outputFile = pickedDir.createFile("text/plain", "My1.txt");
+			outputFile = DocumentFile.fromTreeUri(this, treeUri);
 		}
 	}
 
@@ -119,6 +117,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (downloadManager.query(downloadId2) == DownloadManager.STATUS_NOT_FOUND) {
+				DocumentFile outputdf = outputFile.createFile("application/octet-stream", "tt2.jpg");	downloadRequest2.setDestinationURI(outputdf.getUri());
 					downloadId2 = downloadManager.add(downloadRequest2);
 					myDownloadStatusListener.listen(mProgress2, downloadId2);
 				}
