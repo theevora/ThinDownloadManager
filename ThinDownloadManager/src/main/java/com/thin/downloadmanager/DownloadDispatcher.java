@@ -91,7 +91,7 @@ public class DownloadDispatcher extends Thread {
 	 */
 	private void cleanupDestination() {
 		Log.d(TAG, "cleanupDestination() deleting " + mRequest.getDestinationURI().getPath());
-		if (mRequest.getDestinationURI().getScheme().equals("content")) {
+		if ("content".equals(mRequest.getDestinationURI().getScheme())) {
 			return;
 		}
 
@@ -309,7 +309,7 @@ public class DownloadDispatcher extends Thread {
 				Log.e(TAG, e.getMessage(), e);
 			}
 
-			if (mRequest.getDestinationURI().getScheme().equals("content")) {
+			if ("content".equals(mRequest.getDestinationURI().getScheme())) {
 				out = context.getContentResolver().openOutputStream(mRequest.getDestinationURI());
 			} else {
 				out = openFileOutputStream(in);
