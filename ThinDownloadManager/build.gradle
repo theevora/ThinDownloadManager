@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 version = "1.2.4"
 group = "com.mani"
@@ -31,3 +33,21 @@ android {
     }
 }
 
+publishing {
+   publications {
+
+       repositories.maven {
+           url 'file://f:/myrepo'
+       }
+
+       maven(MavenPublication) {
+           artifacts {
+               groupId 'com.mycompany'
+               artifactId 'mylibrary'
+               version '1.0'
+               artifact 'build/outputs/aar/ThinDownloadManager-release.aar'
+           }
+       }
+   }
+
+}
