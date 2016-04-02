@@ -4,7 +4,18 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 version = "1.2.4"
-group = "com.mani"
+group = "th.co.methronet.thinsdloader"
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+    }
+}
 
 def siteUrl = 'https://github.com/smanikandan14/ThinDownloadManager.git'
 def gitUrl = 'https://github.com/smanikandan14/ThinDownloadManager.git'
@@ -37,17 +48,18 @@ publishing {
    publications {
 
        repositories.maven {
-           url 'file://f:/myrepo'
+           url 'file://d:/methrovenrepos'
        }
 
        maven(MavenPublication) {
-           artifacts {
+/* 
+          artifacts {
                groupId 'com.mycompany'
                artifactId 'mylibrary'
                version '1.0'
                artifact 'build/outputs/aar/ThinDownloadManager-release.aar'
            }
-       }
+  */     }
    }
 
 }
